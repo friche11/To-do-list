@@ -21,7 +21,7 @@ import com.labdessoft.roteiro01.repository.TaskRepository;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-public class TaskController extends Exception{
+public class TaskController {
 
     @Autowired
      private TaskRepository taskRepository;
@@ -64,6 +64,24 @@ public ResponseEntity<Task> createTask(@RequestBody Task task) {
         return new ResponseEntity<>(_task, HttpStatus.CREATED);
     } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+@Operation(summary = "Marca uma tarefa como concluída")
+@PutMapping("/complete/{id}")
+public ResponseEntity<Task> completeTask(@PathVariable Long id) {
+    try {
+        Optional<Task> taskData = taskRepository.findById(id);
+        if (taskData.isPresent()) {
+            Task task = taskData.get();
+            task.setCompleted(true); // Marca a tarefa como concluída
+            Task updatedTask = taskRepository.save(task); // Salva a tarefa atualizada no banco de dados
+            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
