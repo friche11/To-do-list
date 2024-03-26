@@ -7,4 +7,5 @@ completed BOOLEAN
 INSERT INTO task (description) VALUES
 ('Primeira tarefa'),
 ('Segunda tarefa'),
-('Terceira tarefa');
+('Terceira tarefa'),
+('Quarta tarefa');

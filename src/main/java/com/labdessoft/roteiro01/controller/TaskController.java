@@ -83,7 +83,7 @@ public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task 
 }
 
 @Operation(summary = "Deleta uma tarefa existente da lista")
-@DeleteMapping("/deleta/{id}")
+@DeleteMapping("/delete/{id}")
 public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
     try {
         taskRepository.deleteById(id);
