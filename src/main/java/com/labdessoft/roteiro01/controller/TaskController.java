@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.labdessoft.roteiro01.entity.Task;
 import com.labdessoft.roteiro01.repository.TaskRepository;
+import com.labdessoft.roteiro01.service.TaskService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -24,90 +25,83 @@ import io.swagger.v3.oas.annotations.Operation;
 public class TaskController {
 
     @Autowired
-     private TaskRepository taskRepository;
+    private TaskService taskService;
 
 @Operation(summary = "Lista todas as tarefas da lista")
 @GetMapping("/tasks")
-   public ResponseEntity<List<Task>> listAll() {
-try{
-    List<Task> taskList = new ArrayList<Task>();
-    taskRepository.findAll().forEach(taskList::add);
-    if(taskList.isEmpty()){
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-}
-    return new ResponseEntity<>(taskList, HttpStatus.OK);
-} catch (Exception e) {
-    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-}
+public ResponseEntity<?> listAllTasks() {
+    try {
+        List<Task> tasks = taskService.getAllTasks();
+        if (tasks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(tasks);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao listar as tarefas.");
+    }
 }
 
 @Operation(summary = "Lista uma tarefa específica da lista")
 @GetMapping("/task/{id}")
-public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+public ResponseEntity<?> getTaskById(@PathVariable Long id) {
     try {
-        Optional<Task> taskData = taskRepository.findById(id);
-        if (taskData.isPresent()) {
-            return new ResponseEntity<>(taskData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Task task = taskService.getTaskById(id);
+        return ResponseEntity.ok(task);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
     } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar a tarefa com o ID: " + id);
     }
 }
 
 @Operation(summary = "Cria uma nova tarefa para a lista")
 @PostMapping("/create/task")
-public ResponseEntity<Task> createTask(@RequestBody Task task) {
+public ResponseEntity<?> createTask(@RequestBody Task task) {
     try {
-        Task _task = taskRepository.save(task);
-        return new ResponseEntity<>(_task, HttpStatus.CREATED);
+        Task createdTask = taskService.createTask(task);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     } catch (Exception e) {
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar a tarefa.");
     }
 }
 
 @Operation(summary = "Marca uma tarefa como concluída")
 @PutMapping("/complete/{id}")
-public ResponseEntity<Task> completeTask(@PathVariable Long id) {
+public ResponseEntity<?> completeTask(@PathVariable Long id) {
     try {
-        Optional<Task> taskData = taskRepository.findById(id);
-        if (taskData.isPresent()) {
-            Task task = taskData.get();
-            task.setCompleted(true); // Marca a tarefa como concluída
-            Task updatedTask = taskRepository.save(task); // Salva a tarefa atualizada no banco de dados
-            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Task completedTask = taskService.completeTask(id);
+        return ResponseEntity.ok(completedTask);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
     } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao marcar a tarefa como concluída.");
     }
 }
 
+
 @Operation(summary = "Edita uma tarefa existente da lista")
 @PutMapping("/edit/{id}")
-public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
+public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task task) {
     try {
-        if (taskRepository.existsById(id)) {
-            Task updatedTask = taskRepository.save(task);
-            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Task updatedTask = taskService.updateTask(id, task);
+        return ResponseEntity.ok(updatedTask);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
     } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar a tarefa com o ID: " + id);
     }
 }
 
 @Operation(summary = "Deleta uma tarefa existente da lista")
 @DeleteMapping("/delete/{id}")
-public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
+public ResponseEntity<?> deleteTask(@PathVariable Long id) {
     try {
-        taskRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
     } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a tarefa com o ID: " + id);
     }
 }
 
