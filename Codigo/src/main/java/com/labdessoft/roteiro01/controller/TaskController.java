@@ -2,6 +2,9 @@ package com.labdessoft.roteiro01.controller;
 
 import java.util.List;
 
+// Importando a classe TaskType do pacote correto
+import com.labdessoft.roteiro01.enums.TaskType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.LocalDate;
+
 
 import com.labdessoft.roteiro01.entity.Task;
 import com.labdessoft.roteiro01.service.TaskService;
@@ -57,10 +62,14 @@ public ResponseEntity<?> createTask(@RequestBody Task task) {
     try {
         Task createdTask = taskService.createTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar a tarefa.");
     }
 }
+
+
 
 @Operation(summary = "Marca uma tarefa como concluída")
 @PutMapping("/complete/{id}")
