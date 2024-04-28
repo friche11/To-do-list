@@ -20,17 +20,12 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
-        LocalDate now = LocalDate.now();
-        for (Task task : tasks) {
-            updateTaskStatus(task, now);
-        }
         return tasks;
     }
 
     public Task getTaskById(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
-        updateTaskStatus(task, LocalDate.now());
         return task;
     }
 
@@ -49,7 +44,7 @@ public class TaskService {
         if (task.getType() == TaskType.PRAZO && (task.getDueDays() == null || task.getDueDays() <= 0)) {
             throw new IllegalArgumentException("O prazo previsto deve ser maior que zero.");
         }
-    
+        updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
     
@@ -57,6 +52,7 @@ public class TaskService {
     public Task completeTask(Long id) {
         Task task = getTaskById(id);
         task.setCompleted(true);
+        updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
 
@@ -65,8 +61,10 @@ public class TaskService {
             throw new RuntimeException("Task not found with id: " + id);
         }
         task.setId(id);
+        updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
+    
 
     public void deleteTask(Long id) {
         if (!taskRepository.existsById(id)) {
@@ -88,19 +86,20 @@ public class TaskService {
                     task.setStatus("Concluída");
                 }
                 break;
-            case PRAZO:
+                case PRAZO:
                 if (!task.isCompleted()) {
-                    LocalDate dueDateWithExtension = task.getDueDate().plusDays(task.getDueDays());
-                    if (dueDateWithExtension.isBefore(now)) {
-                        long daysLate = ChronoUnit.DAYS.between(dueDateWithExtension, now);
-                        task.setStatus(daysLate + " dias de atraso");
+                    LocalDate dueDateWithExtension = task.getDueDate().plusDays(task.getDueDays()); // Adicionando os dias de prazo à data de vencimento original
+                    if (now.isAfter(dueDateWithExtension)) { // Verifica se a data atual está após a data com a extensão
+                        long daysLate = ChronoUnit.DAYS.between(dueDateWithExtension, now); // Calcula os dias de atraso
+                        task.setStatus(daysLate + " dias de atraso"); // Atualiza o status para refletir o atraso
                     } else {
-                        task.setStatus("Prevista");
+                        task.setStatus("Prevista"); // Atualiza o status como prevista se ainda não estiver atrasada
                     }
                 } else {
-                    task.setStatus("Concluída");
+                    task.setStatus("Concluída"); // Atualiza o status como concluída se a tarefa estiver completa
                 }
                 break;
+            
             case LIVRE:
                 task.setStatus(task.isCompleted() ? "Concluída" : "Prevista");
                 break;
