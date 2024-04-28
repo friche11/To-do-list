@@ -2,8 +2,6 @@ package com.labdessoft.roteiro01.controller;
 
 import java.util.List;
 
-// Importando a classe TaskType do pacote correto
-import com.labdessoft.roteiro01.enums.TaskType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

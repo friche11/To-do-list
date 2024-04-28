@@ -1,5 +1,6 @@
 package com.labdessoft.roteiro01.entity;
 
+import com.labdessoft.roteiro01.enums.TaskPriority;
 // Importando a classe TaskType do pacote correto
 import com.labdessoft.roteiro01.enums.TaskType;
 
@@ -37,14 +38,16 @@ public class Task {
     private Integer dueDays;
     private TaskType type;
     private String status;
+    private TaskPriority priority;
 
-    public Task(String description, Boolean completed, LocalDate dueDate, Integer dueDays, TaskType type, String status) {
+    public Task(String description, Boolean completed, LocalDate dueDate, Integer dueDays, TaskType type, String status, TaskPriority priority) {
         this.description = description;
         this.completed = completed;
         this.dueDate = dueDate;
         this.dueDays = dueDays;
         this.type = type;
         this.status = status;
+        this.priority = priority;
     }
 
     public Long getId() {
@@ -103,10 +106,18 @@ public class Task {
         this.status = status;
     }
 
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
+    }
+
    
     @Override
     public String toString() {
-        return "Task [id=" + id + ", description=" + description + ", completed=" + completed + ", status=" + status + "]";
+        return "Task [id=" + id + ", description=" + description + ", completed=" + completed + ", status=" + status + ", priority=" + priority + "]";
     }
 
 }
