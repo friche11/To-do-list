@@ -33,11 +33,22 @@ public class Task {
     @Size(min = 10, message = "Descrição da tarefa deve possuir pelo menos 10 caracteres")
     private String description;
 
+    @Schema(description = "Tarefa concluída ou não concluída")
     private Boolean completed;
+
+    @Schema(description = "Vencimento da tarefa em data")
     private LocalDate dueDate;
+
+    @Schema(description = "Vencimento da tarefa em dias")
     private Integer dueDays;
+
+    @Schema(description = "Tipo da tarefa - Data, prazo ou livre -")
     private TaskType type;
+
+    @Schema(description = "Status da tarefa - Prevista, X dias de atraso ou concluída -")
     private String status;
+
+    @Schema(description = "Prioridade da tarefa - Alta, média, baixa -")
     private TaskPriority priority;
 
     public Task(String description, Boolean completed, LocalDate dueDate, Integer dueDays, TaskType type, String status, TaskPriority priority) {

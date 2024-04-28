@@ -31,9 +31,15 @@ public class TaskService {
 
     public Task createTask(Task task) {
         // Verifica se o tipo de tarefa é especificado
+
         if (task.getType() == null) {
             throw new IllegalArgumentException("Tipo de tarefa não especificado.");
         }
+
+        // Verifica se a descrição da tarefa possui pelo menos 10 caracteres
+    if (task.getDescription() == null || task.getDescription().length() < 10) {
+        throw new IllegalArgumentException("A descrição da tarefa deve possuir pelo menos 10 caracteres.");
+    }
         
         // Verifica se a tarefa do tipo "Data" tem a data prevista de execução correta
         if (task.getType() == TaskType.DATA && task.getDueDate().isBefore(LocalDate.now())) {
