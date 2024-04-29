@@ -1,0 +1,19 @@
+@startuml Basic Sample
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Usuário", "Acessar o sistema de tarefas")
+System_Boundary(c1, "Contexto do sistema de tarefas") {
+  Component(web_app, "Sistema web de tarefas", "HTML, CSS e JavaScript", "Sistema responsável pela visualização das funcionalidades da to-do list")
+   Component(controller, "TaskController","Spring Rest", "Responsável por receber a requisição")
+   Component(service, "TaskService","Spring Service", "Responsável pelas regras de negócio")
+    Component(repository, "TaskRepository","Spring Data", "Responsável pela persistência de dados")
+     ComponentDb(db, "Database","H2 database", "Base de dados responsável pelo cadastro de tarefas")
+}
+
+Rel(user, web_app, "Acessa")
+Rel(web_app, controller, "Request (JSON)")
+Rel(controller, service, "Acessa")
+Rel(service, repository, "Acessa")
+Rel(repository, db, "Acessa", "Spring Data JPA")
+
+@enduml

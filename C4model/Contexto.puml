@@ -1,0 +1,13 @@
+@startuml Basic Sample
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "Usuário", "Acessar o sistema de tarefas")
+System_Boundary(c1, "Contexto do sistema de tarefas") {
+    System(web, "Sistema web de tarefas", "Responsável pelo gerenciamento de tarefas dos usuários")
+    System(api, "Back-end do sistema de tarefas", "Responsável pelas funcionalidades do sistema")
+}
+
+Rel(user, web, "Acessa")
+Rel(web, api, "Acessa")
+
+@enduml
