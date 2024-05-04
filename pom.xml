@@ -17,7 +17,6 @@
 		<java.version>21</java.version>
 	</properties>
 
-<packaging>jar</packaging>
 <build>
     <plugins>
       <plugin>
@@ -25,7 +24,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
-	<finalName>roteiro01app</finalName>
   </build>
 
 	<dependencies>
