@@ -105,9 +105,16 @@
  <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>4.1.1</version>
-  </dependency>
-  
+      <version>5.4.0</version>
+      <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.26</version> <!-- Ou a versão mais recente disponível -->
+</dependency>
+
 	</dependencies>
 
 </project>
