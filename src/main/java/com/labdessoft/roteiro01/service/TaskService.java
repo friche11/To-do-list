@@ -23,7 +23,7 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTaskById(Long id) {
+    public Task getTaskById(int id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
         return task;
@@ -55,14 +55,14 @@ public class TaskService {
     }
     
 
-    public Task completeTask(Long id) {
+    public Task completeTask(int id) {
         Task task = getTaskById(id);
         task.setCompleted(true);
         updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Long id, Task task) {
+    public Task updateTask(int id, Task task) {
         if (!taskRepository.existsById(id)) {
             throw new RuntimeException("Task not found with id: " + id);
         }
@@ -72,7 +72,7 @@ public class TaskService {
     }
     
 
-    public void deleteTask(Long id) {
+    public void deleteTask(int id) {
         if (!taskRepository.existsById(id)) {
             throw new RuntimeException("Task not found with id: " + id);
         }

@@ -42,7 +42,7 @@ public ResponseEntity<?> listAllTasks() {
 
 @Operation(summary = "Lista uma tarefa específica da lista")
 @GetMapping("/task/{id}")
-public ResponseEntity<?> getTaskById(@PathVariable Long id) {
+public ResponseEntity<?> getTaskById(@PathVariable int id) {
     try {
         Task task = taskService.getTaskById(id);
         return ResponseEntity.ok(task);
@@ -70,7 +70,7 @@ public ResponseEntity<?> createTask(@RequestBody Task task) {
 
 @Operation(summary = "Marca uma tarefa como concluída")
 @PutMapping("/complete/{id}")
-public ResponseEntity<?> completeTask(@PathVariable Long id) {
+public ResponseEntity<?> completeTask(@PathVariable int id) {
     try {
         Task completedTask = taskService.completeTask(id);
         return ResponseEntity.ok(completedTask);
@@ -84,7 +84,7 @@ public ResponseEntity<?> completeTask(@PathVariable Long id) {
 
 @Operation(summary = "Edita uma tarefa existente da lista")
 @PutMapping("/edit/{id}")
-public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task task) {
+public ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody Task task) {
     try {
         Task updatedTask = taskService.updateTask(id, task);
         return ResponseEntity.ok(updatedTask);
@@ -97,7 +97,7 @@ public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task tas
 
 @Operation(summary = "Deleta uma tarefa existente da lista")
 @DeleteMapping("/delete/{id}")
-public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+public ResponseEntity<?> deleteTask(@PathVariable int id) {
     try {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
