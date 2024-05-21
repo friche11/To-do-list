@@ -115,6 +115,14 @@
     <version>8.0.26</version> <!-- Ou a versão mais recente disponível -->
 </dependency>
 
+<!-- Mockito -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.11.2</version>
+        <scope>test</scope>
+    </dependency>
+
 	</dependencies>
 
 </project>
