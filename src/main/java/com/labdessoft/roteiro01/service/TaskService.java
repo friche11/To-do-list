@@ -8,6 +8,9 @@ import com.labdessoft.roteiro01.repository.TaskRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.time.temporal.ChronoUnit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 // Importando a classe TaskType do pacote correto
 import com.labdessoft.roteiro01.enums.TaskType;
@@ -17,6 +20,10 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    public Page<Task> listAll(Pageable pageable) {
+        return taskRepository.findAll(pageable);
+    }
 
     public List<Task> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
