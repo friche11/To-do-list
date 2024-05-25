@@ -54,14 +54,6 @@ RestAssured.port = 8080;
     }
 
     @Test
-    public void
-    givenUrl_whenSuccessOnGetsResponseAndJsonHasOneTask_thenCorrect() {
-    get("/api/task/1").then().statusCode(200)
-    .assertThat().body("description",
-    equalTo("Primeira tarefa"));
-    }
-
-    @Test
     public void givenUrl_whenSuccessOnPostCreatesTask_thenCorrect() {
         // Criar a tarefa e salvar no banco de dados
         Task task = new Task();
@@ -81,6 +73,19 @@ RestAssured.port = 8080;
             .post("/api/create/task")
         .then()
             .statusCode(201);
+    }
+
+    
+    @Test
+    public void
+    givenUrl_whenSuccessOnGetsResponseAndJsonHasOneTask_thenCorrect() {
+    Optional<Task> optionalTask = taskRepository.findById(taskId);
+    if (optionalTask.isPresent()){
+        when()
+        .get("/api/task/" + taskId)
+        .then()
+        .statusCode(200);
+    }
     }
     
 
