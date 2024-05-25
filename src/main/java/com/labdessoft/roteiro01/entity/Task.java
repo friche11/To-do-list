@@ -27,7 +27,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Schema(description = "Descrição da tarefa deve possuir pelo menos 10 caracteres")
     @Size(min = 10, message = "Descrição da tarefa deve possuir pelo menos 10 caracteres")
@@ -61,11 +61,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
