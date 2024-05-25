@@ -1,0 +1,46 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU003 - Criar Nova Tarefa
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: Criar nova tarefa
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: POST api/create/task
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> taskController: createTask(task)
+activate taskController
+taskController -> taskService: createTask(task)
+activate taskService
+taskService -> taskRepository: save(task)
+activate taskRepository
+taskRepository -> TypedQuery: persist(Task)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: INSERT INTO Tasks
+Activate Hibernate
+Hibernate -> TodoList: INSERT INTO Tasks
+TodoList --> Hibernate: Table Task
+Hibernate --> TypedQuery: Task
+TypedQuery --> taskRepository: Task
+destroy TypedQuery
+end
+taskRepository --> taskService: Task
+destroy taskRepository
+taskService --> taskController: Task task
+destroy taskService
+taskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.status(HttpStatus.CREATED).body(task)
+destroy taskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.status(HttpStatus.CREATED).body(task)
+Frontend --> Usuário: Task
+@enduml
