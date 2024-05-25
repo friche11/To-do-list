@@ -1,0 +1,46 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU002 - Listar tarefa específica
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: Obter tarefa por ID
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: GET api/task/{id}
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> taskController: getTaskById(id)
+activate taskController
+taskController -> taskService: getTaskById(id)
+activate taskService
+taskService -> taskRepository: findById(id)
+activate taskRepository
+taskRepository -> TypedQuery: getSingleResult(Task)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: SELECT Task WHERE id = {id}
+Activate Hibernate
+Hibernate -> TodoList: SELECT * FROM Tasks WHERE id = {id}
+TodoList --> Hibernate: Table Task
+Hibernate --> TypedQuery: Task
+TypedQuery --> taskRepository: Task
+destroy TypedQuery
+end
+taskRepository --> taskService: Task
+destroy taskRepository
+taskService --> taskController: Task task
+destroy taskService
+taskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(task)
+destroy taskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(task)
+Frontend --> Usuário: Task
+@enduml
