@@ -1,0 +1,51 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU001 - Listar todas as Tarefas
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Participant pagedResourcesAssembler
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: Listar todas as Tarefas
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: GET api/tasks/
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> taskController: listAll(TaskDto, Pageable, PersistentEntityResourceAssembler)
+activate taskController
+taskController -> taskService: listAll(pageable)
+activate taskService
+taskService -> taskRepository: findAll(pageable)
+activate taskRepository
+taskRepository -> TypedQuery: getResultList(TaskDto)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: List(TaskDto)
+Activate Hibernate
+Hibernate -> TodoList: SELECT * FROM Tasks
+TodoList --> Hibernate: Table Tasks
+Hibernate --> TypedQuery: Table Tasks
+TypedQuery --> taskRepository: Page<Tasks>
+destroy TypedQuery
+end
+taskRepository --> taskService: Page<Task>
+destroy taskRepository
+taskService --> taskController: Page<Task> events
+destroy taskService
+taskController -> pagedResourcesAssembler: toModel(events, resourceAssembler)
+activate pagedResourcesAssembler
+pagedResourcesAssembler --> taskController: PagedModel<Task> resource
+destroy pagedResourcesAssembler
+taskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(resource)
+destroy taskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(resource)
+Frontend --> Usuário: <list>Task
+@enduml
