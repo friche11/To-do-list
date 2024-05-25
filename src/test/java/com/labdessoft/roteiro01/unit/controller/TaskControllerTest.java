@@ -2,7 +2,6 @@ package com.labdessoft.roteiro01.unit.controller;
 
 import com.labdessoft.roteiro01.controller.TaskController;
 import com.labdessoft.roteiro01.entity.Task;
-import com.labdessoft.roteiro01.enums.TaskType;
 import com.labdessoft.roteiro01.mock.TaskMock;
 import com.labdessoft.roteiro01.service.TaskService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
