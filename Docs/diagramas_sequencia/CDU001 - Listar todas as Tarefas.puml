@@ -7,7 +7,6 @@ Control taskController
 Entity Task
 Participant taskService
 Participant taskRepository
-Participant pagedResourcesAssembler
 Boundary TypedQuery
 Participant Hibernate
 Database TodoList
@@ -18,11 +17,11 @@ activate Frontend
 activate TodoList
 Frontend -> SpringBoot: GET api/tasks/
 group Roteiro01Application [Spring Boot Java Application]
-SpringBoot -> taskController: listAll(TaskDto, Pageable, PersistentEntityResourceAssembler)
+SpringBoot -> taskController: listAllTasks()
 activate taskController
-taskController -> taskService: listAll(pageable)
+taskController -> taskService: getAllTasks()
 activate taskService
-taskService -> taskRepository: findAll(pageable)
+taskService -> taskRepository: findAll()
 activate taskRepository
 taskRepository -> TypedQuery: getResultList(TaskDto)
 group JPA Framework[Hibernate]
@@ -32,20 +31,16 @@ Activate Hibernate
 Hibernate -> TodoList: SELECT * FROM Tasks
 TodoList --> Hibernate: Table Tasks
 Hibernate --> TypedQuery: Table Tasks
-TypedQuery --> taskRepository: Page<Tasks>
+TypedQuery --> taskRepository: List<Tasks>
 destroy TypedQuery
 end
-taskRepository --> taskService: Page<Task>
+taskRepository --> taskService: List<Task>
 destroy taskRepository
-taskService --> taskController: Page<Task> events
+taskService --> taskController: List<Task> tasks
 destroy taskService
-taskController -> pagedResourcesAssembler: toModel(events, resourceAssembler)
-activate pagedResourcesAssembler
-pagedResourcesAssembler --> taskController: PagedModel<Task> resource
-destroy pagedResourcesAssembler
-taskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(resource)
+taskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(tasks)
 destroy taskController
 end
-SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(resource)
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(tasks)
 Frontend --> Usuário: <list>Task
 @enduml
