@@ -6,7 +6,7 @@
   box-sizing: border-box;
   }
   body {
-  background: transparent; /* Make it white if you need */
+  background: white; /* Make it white if you need */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@
   text-align: center;
   }
   h1 {
-  color: #fff;
+  color: #8758ff;
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
   }
@@ -37,10 +37,10 @@
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: #000000;
   }
   .todo-input::placeholder {
-  color: #ffffff4d;
+  color: #a1a1a1;
   }
   .todo-btn {
   background: #8758ff;
@@ -49,7 +49,7 @@
   padding: 0.55rem;
   cursor: pointer;
   }
-  .TodoList {
+  .Todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,12 +63,11 @@
   margin-left: 0.75rem;
   }
   .incompleted {
-  color: #fff;
-  text-decoration: line-through;
+  color: #ffffff;
   cursor: pointer;
   }
   .completed {
-  color: #c5aeff;
+  color: #ded1ff;
   text-decoration: line-through;
   cursor: pointer;
   }
