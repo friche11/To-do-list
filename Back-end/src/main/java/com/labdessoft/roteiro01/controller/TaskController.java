@@ -2,6 +2,7 @@ package com.labdessoft.roteiro01.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,9 @@ import com.labdessoft.roteiro01.service.TaskService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
 
     @Autowired
