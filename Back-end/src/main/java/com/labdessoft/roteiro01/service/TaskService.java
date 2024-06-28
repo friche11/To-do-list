@@ -58,6 +58,13 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task uncompleteTask(int id) {
+        Task task = getTaskById(id);
+        task.setCompleted(false);
+        updateTaskStatus(task, LocalDate.now());
+        return taskRepository.save(task);
+    }
+
     public Task updateTask(int id, Task task) {
         if (!taskRepository.existsById(id)) {
             throw new RuntimeException("Task not found with id: " + id);

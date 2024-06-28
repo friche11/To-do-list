@@ -1,55 +1,103 @@
 * {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-  Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  }
-  body {
-  background: white; /* Make it white if you need */
+}
+
+body {
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  }
-  .App {
+}
+
+.App {
   color: #72a24d;
   text-align: center;
-  }
-  h1 {
+}
+
+h1 {
   color: #8758ff;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2.0rem;
   font-size: 1.75rem;
-  }
-  .TodoWrapper {
+}
+
+.TodoWrapper {
   margin-top: 5rem;
   padding: 2rem;
   border-radius: 5px;
-  }
-  .TodoForm {
+}
+
+.TodoForm {
   width: 100%;
-  margin-bottom: 1rem;
-  }
-  .todo-input {
+  
+}
+
+.todo-input{
   outline: none;
   background: none;
   border: 1px solid #8758ff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
+  margin-right: 20px;
   width: 300px;
   color: #000000;
-  }
-  .todo-input::placeholder {
+}
+
+.todo-input-number{
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  margin-right: 20px;
+  width: 100px;
+  color: #000000;
+}
+
+.todo-input-date{
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  margin-right: 20px;
+  width: 150px;
+  color: #000000;
+}
+
+.todo-select {
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  padding: 0.45rem;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  width: 100px;
+  color: #000000;
+  margin-right: 20px;
+
+}
+
+.todo-input::placeholder, .todo-select::placeholder {
   color: #a1a1a1;
-  }
-  .todo-btn {
+}
+
+
+.todo-btn {
   background: #8758ff;
   color: #fff;
   border: none;
   padding: 0.55rem;
   cursor: pointer;
-  }
-  .Todo {
+  
+}
+
+.Todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,19 +106,97 @@
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
-  }
-  .fa-trash {
+}
+
+.fa-trash {
   margin-left: 0.75rem;
-  }
-  .incompleted {
+}
+
+.incompleted {
   color: #ffffff;
   cursor: pointer;
-  }
-  .completed {
+}
+
+.completed {
   color: #ded1ff;
   text-decoration: line-through;
   cursor: pointer;
-  }
-  .delete-icon {
+}
+
+.delete-icon {
   cursor: pointer;
-  }
+}
+
+.edit-icon {
+  cursor: pointer;
+  margin-left: 0.75rem;
+}
+
+input[type="checkbox"] {
+  margin-right: 1rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  position: relative;
+  width: 500px;
+  max-width: 100%;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.modal-body p {
+  margin-bottom: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+

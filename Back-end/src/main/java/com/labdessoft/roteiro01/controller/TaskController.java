@@ -82,6 +82,20 @@ public class TaskController {
         }
     }
 
+    @Operation(summary = "Marca uma tarefa como não concluída")
+    @PutMapping("/uncomplete/{id}")
+    public ResponseEntity<?> uncompleteTask(@PathVariable int id) {
+        try {
+            Task uncompletedTask = taskService.uncompleteTask(id);
+            return ResponseEntity.ok(uncompletedTask);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao marcar a tarefa como concluída.");
+        }
+    }
+
     @Operation(summary = "Edita uma tarefa existente da lista")
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody Task task) {
