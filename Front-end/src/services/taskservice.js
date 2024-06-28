@@ -1,7 +1,8 @@
 // src/services/taskservice.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api'; // Altere para a URL da sua API
+//const API_URL = 'https://localhost:8080/api';
+const API_URL = 'https://api-to-do-list-atualizada.onrender.com/api'; // Altere para a URL da sua API
 
 export const getAllTasks = async () => {
     try {
