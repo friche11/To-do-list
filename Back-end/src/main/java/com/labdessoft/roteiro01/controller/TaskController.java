@@ -2,6 +2,7 @@ package com.labdessoft.roteiro01.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,9 @@ import com.labdessoft.roteiro01.service.TaskService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
 
     @Autowired
@@ -71,6 +74,20 @@ public class TaskController {
         try {
             Task completedTask = taskService.completeTask(id);
             return ResponseEntity.ok(completedTask);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao marcar a tarefa como concluída.");
+        }
+    }
+
+    @Operation(summary = "Marca uma tarefa como não concluída")
+    @PutMapping("/uncomplete/{id}")
+    public ResponseEntity<?> uncompleteTask(@PathVariable int id) {
+        try {
+            Task uncompletedTask = taskService.uncompleteTask(id);
+            return ResponseEntity.ok(uncompletedTask);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada com o ID: " + id);
         } catch (Exception e) {

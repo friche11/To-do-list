@@ -12,8 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
-// Importando a classe TaskType do pacote correto
 import com.labdessoft.roteiro01.enums.TaskType;
+import com.labdessoft.roteiro01.enums.TaskPriority;
 
 @Service
 public class TaskService {
@@ -27,44 +27,40 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
+        tasks.forEach(task -> {
+            updateTaskStatus(task, LocalDate.now());
+            taskRepository.save(task); 
+        });
         return tasks;
     }
+    
 
     public Task getTaskById(int id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+        updateTaskStatus(task, LocalDate.now());
+        taskRepository.save(task); 
         return task;
     }
+    
+    
 
     public Task createTask(Task task) {
-        // Verifica se o tipo de tarefa é especificado
-
-        if (task.getType() == null) {
-            throw new IllegalArgumentException("Tipo de tarefa não especificado.");
-        }
-
-        // Verifica se a descrição da tarefa possui pelo menos 10 caracteres
-    if (task.getDescription() == null || task.getDescription().length() < 10) {
-        throw new IllegalArgumentException("A descrição da tarefa deve possuir pelo menos 10 caracteres.");
-    }
-        
-        // Verifica se a tarefa do tipo "Data" tem a data prevista de execução correta
-        if (task.getType() == TaskType.DATA && task.getDueDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("A data prevista de execução deve ser igual ou superior à data atual.");
-        }
-        
-        // Verifica se a tarefa do tipo "Prazo" tem o prazo previsto válido
-        if (task.getType() == TaskType.PRAZO && (task.getDueDays() == null || task.getDueDays() <= 0)) {
-            throw new IllegalArgumentException("O prazo previsto deve ser maior que zero.");
-        }
+        validateAndSetTaskFields(task);
         updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
-    
 
     public Task completeTask(int id) {
         Task task = getTaskById(id);
         task.setCompleted(true);
+        updateTaskStatus(task, LocalDate.now());
+        return taskRepository.save(task);
+    }
+
+    public Task uncompleteTask(int id) {
+        Task task = getTaskById(id);
+        task.setCompleted(false);
         updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
@@ -74,10 +70,10 @@ public class TaskService {
             throw new RuntimeException("Task not found with id: " + id);
         }
         task.setId(id);
+        validateAndSetTaskFields(task);
         updateTaskStatus(task, LocalDate.now());
         return taskRepository.save(task);
     }
-    
 
     public void deleteTask(int id) {
         if (!taskRepository.existsById(id)) {
@@ -85,6 +81,29 @@ public class TaskService {
         }
         taskRepository.deleteById(id);
     }
+
+    private void validateAndSetTaskFields(Task task) {
+        if (task.getType() == null) {
+            throw new IllegalArgumentException("Tipo de tarefa não especificado.");
+        }
+
+        if (task.getDescription() == null || task.getDescription().length() < 10) {
+            throw new IllegalArgumentException("A descrição da tarefa deve possuir pelo menos 10 caracteres.");
+        }
+
+        if (task.getType() == TaskType.DATA) {
+            if (task.getDueDate() == null || task.getDueDate().isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("A data prevista de execução deve ser igual ou superior à data atual.");
+            }
+            task.setDueDays(null);
+        } else if (task.getType() == TaskType.PRAZO) {
+            if (task.getDueDays() == null || task.getDueDays() <= 0) {
+                throw new IllegalArgumentException("O prazo previsto deve ser maior que zero.");
+            }
+            task.setDueDate(LocalDate.now());
+        }
+    }
+
     private void updateTaskStatus(Task task, LocalDate now) {
         switch (task.getType()) {
             case DATA:
@@ -99,20 +118,19 @@ public class TaskService {
                     task.setStatus("Concluída");
                 }
                 break;
-                case PRAZO:
+            case PRAZO:
                 if (!task.isCompleted()) {
-                    LocalDate dueDateWithExtension = task.getDueDate().plusDays(task.getDueDays()); // Adicionando os dias de prazo à data de vencimento original
-                    if (now.isAfter(dueDateWithExtension)) { // Verifica se a data atual está após a data com a extensão
-                        long daysLate = ChronoUnit.DAYS.between(dueDateWithExtension, now); // Calcula os dias de atraso
-                        task.setStatus(daysLate + " dias de atraso"); // Atualiza o status para refletir o atraso
+                    LocalDate dueDateWithExtension = task.getDueDate().plusDays(task.getDueDays());
+                    if (now.isAfter(dueDateWithExtension)) {
+                        long daysLate = ChronoUnit.DAYS.between(dueDateWithExtension, now);
+                        task.setStatus(daysLate + " dias de atraso");
                     } else {
-                        task.setStatus("Prevista"); // Atualiza o status como prevista se ainda não estiver atrasada
+                        task.setStatus("Prevista");
                     }
                 } else {
-                    task.setStatus("Concluída"); // Atualiza o status como concluída se a tarefa estiver completa
+                    task.setStatus("Concluída");
                 }
                 break;
-            
             case LIVRE:
                 task.setStatus(task.isCompleted() ? "Concluída" : "Prevista");
                 break;
