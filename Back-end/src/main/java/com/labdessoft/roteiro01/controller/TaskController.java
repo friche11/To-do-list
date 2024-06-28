@@ -21,7 +21,8 @@ import io.swagger.v3.oas.annotations.Operation;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://to-do-list-front-h0fw.onrender.com")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
 
     @Autowired
