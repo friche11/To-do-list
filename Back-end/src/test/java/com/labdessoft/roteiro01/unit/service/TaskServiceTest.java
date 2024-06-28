@@ -44,15 +44,9 @@ public class TaskServiceTest {
         List<Task> tasks = TaskMock.createTasks();
         Page<Task> taskPage = new PageImpl<>(tasks);
 
-        // Configuração para findAll com qualquer Pageable
-    Mockito.lenient().when(taskRepository.findAll(Mockito.any(Pageable.class))).thenReturn(taskPage);
-
-    // Configuração para findById retornando uma Task com ID 1
-    Mockito.lenient().when(taskRepository.findById(1)).thenReturn(Optional.of(TaskMock.createTask(1)));
-
-    // Configuração para save retornando a Task passada como argumento
-    Mockito.lenient().when(taskRepository.save(any(Task.class))).thenAnswer(i -> i.getArguments()[0]);
-        
+        Mockito.lenient().when(taskRepository.findAll(Mockito.any(Pageable.class))).thenReturn(taskPage);
+        Mockito.lenient().when(taskRepository.findById(1)).thenReturn(Optional.of(TaskMock.createTask(1)));
+        Mockito.lenient().when(taskRepository.save(any(Task.class))).thenAnswer(i -> i.getArguments()[0]);
     }
 
     @Test
@@ -94,6 +88,7 @@ public class TaskServiceTest {
     @DisplayName("Should complete a task")
     public void should_complete_task() {
         Task completedTask = taskService.completeTask(1);
+        assertNotNull(completedTask);
         assertTrue(completedTask.isCompleted());
         assertEquals("Concluída", completedTask.getStatus());
     }

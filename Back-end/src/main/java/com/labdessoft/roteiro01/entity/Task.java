@@ -34,7 +34,7 @@ public class Task {
     private String description;
 
     @Schema(description = "Tarefa concluída ou não concluída")
-    private Boolean completed;
+    private Boolean completed = false;
 
     @Schema(description = "Vencimento da tarefa em data")
     private LocalDate dueDate;

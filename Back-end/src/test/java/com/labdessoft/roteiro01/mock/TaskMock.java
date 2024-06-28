@@ -15,6 +15,7 @@ public class TaskMock {
         task1.setDescription("Task 1");
         task1.setType(TaskType.DATA);
         task1.setDueDate(LocalDate.now().plusDays(5));
+        task1.setCompleted(false);
 
         Task task2 = new Task();
         task2.setId(2);
@@ -22,6 +23,7 @@ public class TaskMock {
         task2.setType(TaskType.PRAZO);
         task2.setDueDate(LocalDate.now().plusDays(10));
         task2.setDueDays(7);
+        task2.setCompleted(false);
 
         return Arrays.asList(task1, task2);
     }
