@@ -25,7 +25,7 @@
 </p>
 </br>
 
-<p align="center">
+<p >
   <b>Esse projeto foi construído com o intuito de aprender sobre API RESTful, Docker e React. Na lista de tarefas você pode visualizar uma tarefa específica, criar uma nova tarefa selecionando o tipo e a prioridade dela, editar, excluir e marcar ela como concluída.</b>
 </p>
 
