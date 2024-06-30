@@ -7,6 +7,7 @@
 
 <h1 align="center" style="font-weight: bold;">Lista de tarefas</h1>
 
+
 </br>
 <div align="center">
   <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" alt="spring"/>
@@ -25,6 +26,11 @@
 </p>
 </br>
 
+<p align="center">
+  <img src="https://github.com/friche11/To-do-list/assets/104036970/e1360a5e-ff83-445d-bf52-d9d938a7f012" alt="project image" width="500"/>
+</p>
+</br>
+<h2 id="about">📌 Sobre</h2>
 <p >
   <b>Esse projeto foi construído com o intuito de aprender sobre API RESTful, Docker e React. Na lista de tarefas você pode visualizar uma tarefa específica, criar uma nova tarefa selecionando o tipo e a prioridade dela, editar, excluir e marcar ela como concluída.</b>
 </p>
