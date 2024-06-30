@@ -27,7 +27,7 @@
 </br>
 
 <p align="center">
-  <img src="https://github.com/friche11/To-do-list/assets/104036970/e1360a5e-ff83-445d-bf52-d9d938a7f012" alt="project image" width="700"/>
+  <img src="https://github.com/friche11/To-do-list/assets/104036970/e1360a5e-ff83-445d-bf52-d9d938a7f012" alt="project image" width="600"/>
 </p>
 </br>
 <h2 id="about">📌 Sobre</h2>
@@ -66,7 +66,7 @@ Mude o nome de usuário e a senha do `application.properties` para seu nome de u
 
 <h3>Executando o projeto back-end</h3>
 
-Abra um novo terminal e execute os comandos abaixo para rodar o projeto
+Abra o projeto no Visual Studio Code e execute os comandos abaixo em um novo terminal para rodar o projeto back-end
 ```bash
 cd back-end
 mvn spring-boot:run
@@ -77,7 +77,7 @@ cd back-end
 ./mvnw spring-boot:run
 ```
 <h3>Executando o projeto front-end</h3>
-Abra um novo terminal e execute os comandos abaixo para rodar o projeto
+Abra um novo terminal e execute os comandos abaixo para rodar o projeto front-end
 
 ```bash
 cd front-end
@@ -96,7 +96,7 @@ URL somente da API: https://api-to-do-list-atualizada.onrender.com
 URL da aplicação utilizando os endpoints da API: https://to-do-list-front-h0fw.onrender.com
 </br>
 </br>
-Como os servidores do render na versão gratuita são suspensos frequentemente, recomendo ver o funcionamento da aplicação pelo vídeo no youtube: https://youtu.be/4cJhcvz5atM
+Como os servidores do render caem quando ficam inativos na versão gratuita, recomendo ver o funcionamento da aplicação pelo vídeo no youtube: https://youtu.be/4cJhcvz5atM
 
 
 <h2 id="routes">📍 API Endpoints</h2>
