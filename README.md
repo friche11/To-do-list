@@ -22,12 +22,12 @@
  <a href="#started">Rodando Localmente</a> • 
 <a href="#deploy">Deploy</a> • 
  <a href="#routes">API Endpoints</a> •
- <a href="#contribute">Contribute</a>
+ <a href="#contribute">Contribuindo</a>
 </p>
 </br>
 
 <p align="center">
-  <img src="https://github.com/friche11/To-do-list/assets/104036970/e1360a5e-ff83-445d-bf52-d9d938a7f012" alt="project image" width="500"/>
+  <img src="https://github.com/friche11/To-do-list/assets/104036970/e1360a5e-ff83-445d-bf52-d9d938a7f012" alt="project image" width="700"/>
 </p>
 </br>
 <h2 id="about">📌 Sobre</h2>
